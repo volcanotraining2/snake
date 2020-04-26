@@ -1,39 +1,39 @@
 node ('app-server'){  
-    //def app
+    def app
     stage('Cloning Git') {
         /* Let's make sure we have the repository cloned to our workspace */
-        //checkout scm
+        checkout scm
     }  
     stage('SAST'){
-        // build 'SECURITY-SAST-SNYK'
+         build 'SECURITY-SAST-SNYK'
     }
 
     
     stage('Build-and-Tag') {
     /* This builds the actual image; synonymous to
          * docker build on the command line */
-        // app = docker.build("volcanotraining2/snake")
+        app = docker.build("volcanotraining2/snake")
     }
     stage('Post-to-dockerhub') {
     
-     //docker.withRegistry('https://registry.hub.docker.com', 'training_creds') {
-       //     app.push("latest")
-        //			}
+     docker.withRegistry('https://registry.hub.docker.com', 'docker') {
+        app.push("latest")
+        			}
          }
     stage('SECURITY-IMAGE-SCANNER'){
-       // build 'SECURITY-IMAGE-SCANNER-AQUAMICROSCANNER'
+        build 'SECURITY-IMAGE-AQUASCANNER'
     }
   
     
     stage('Pull-image-server') {
     
-         //sh "docker-compose down"
-         //sh "docker-compose up -d"	
+         sh "docker-compose down"
+         sh "docker-compose up -d"	
       }
     
     stage('DAST')
         {
-        //build 'SECURITY-DAST-OWASP_ZAP'
+        build 'SECURITY- DAST_OWASP_ZAP'
         }
  
 }
