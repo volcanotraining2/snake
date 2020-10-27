@@ -1,0 +1,28 @@
+node ('apps-server'){  
+   // def app
+    stage('Cloning Git') {
+        /* Let's make sure we have the repository cloned to our workspace */
+        checkout scm
+    }  
+    
+    stage('Build-and-Tag') {
+       sh 'echo BUILD-AND-TAG'
+    /* This builds the actual image; synonymous to
+         * docker build on the command line */
+     //   app = docker.build("volcanotraining2/test2")
+    }
+    stage('Post-to-dockerhub') {
+       sh 'echo POST-TO-DOCKERHUB'
+  //   docker.withRegistry('https://registry.hub.docker.com', 'docker') {
+    //    app.push("latest")
+        	//		}
+         }
+  
+    
+    stage('Pull-image-server') {
+        sh 'echo PULL-IMAGE-SERVER'
+         // sh "docker-compose down"
+         // sh "docker-compose up -d"	
+      }
+ 
+}
